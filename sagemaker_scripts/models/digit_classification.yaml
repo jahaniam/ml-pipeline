@@ -1,0 +1,3 @@
+endpoint_name: digit-classification
+model_uri: s3://sagemaker-us-east-1-633875729936/tensorflow-training-230924-1912-001-db5f2abb/output/model.tar.gz
+triton_image_uri: 785573368785.dkr.ecr.us-east-1.amazonaws.com/sagemaker-tritonserver:21.08-py3
