@@ -6,6 +6,10 @@ from streamlit_drawable_canvas import st_canvas
 import boto3
 import json
 
+def get_endpoint_info(endpoints, endpoint_name):
+    for endpoint in endpoints:
+        if endpoint["EndpointName"] == endpoint_name:
+            return endpoint  # return the matching endpoint dictionary
 
 def predict(img, runtime_sm_client, endpoint_name):
     payload = {
@@ -43,49 +47,49 @@ def get_endpoint_names():
     endpoints = response["Endpoints"]
     return endpoints
 
+def main():
+    session = get_session()
 
-session = get_session()
+    st.title("😎 Digit Classification")
+    st.write("Draw a digit and click predict")
 
-st.title("Digit Classification")
-st.markdown(
-    """
-Write a digit!
-"""
-)
+    col1, col2 = st.columns(2)
 
-col1, col2 = st.columns(2)
+    SIZE = 256
+    with col1:
+        canvas_result = st_canvas(
+            fill_color="#000000",
+            stroke_width=20,
+            stroke_color="#FFFFFF",
+            background_color="#000000",
+            width=SIZE,
+            height=SIZE,
+            drawing_mode="freedraw",
+            key="canvas",
+        )
 
-SIZE = 256
-with col1:
-    canvas_result = st_canvas(
-        fill_color="#000000",
-        stroke_width=20,
-        stroke_color="#FFFFFF",
-        background_color="#000000",
-        width=SIZE,
-        height=SIZE,
-        drawing_mode="freedraw",
-        key="canvas",
-    )
+    endpoints = get_endpoint_names()
+    endpoint_names = [endpoint["EndpointName"] for endpoint in endpoints]
+    selected_endpoint_name = st.sidebar.selectbox("Endpoint", endpoint_names)
 
-endpoints = get_endpoint_names()
-endpoint_names = [endpoint["EndpointName"] for endpoint in endpoints]
-selected_endpoint_name = st.sidebar.selectbox("Endpoint", endpoint_names)
+    with col2:
+        if st.button("Predict"):
+            if selected_endpoint_name is None:
+               st.error(f"Please select an endpoint")
+            else: 
+                img = cv2.resize(canvas_result.image_data.astype("uint8"), (28, 28))
+                img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                label = predict(img.reshape(1, 28, 28, 1), session, endpoint_name=selected_endpoint_name)
+                st.text(f"Prediction: {label}")
 
-with col2:
-    if st.button("Predict"):
-        img = cv2.resize(canvas_result.image_data.astype("uint8"), (28, 28))
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        label = predict(img.reshape(1, 28, 28, 1), session, endpoint_name=selected_endpoint_name)
-        st.text(f"Prediction: {label}")
-
-
-def get_endpoint_info(endpoints, endpoint_name):
-    for endpoint in endpoints:
-        if endpoint["EndpointName"] == endpoint_name:
-            return endpoint  # return the matching endpoint dictionary
+    with st.sidebar, st.expander("Status", expanded=True):
+        selected_endpoint = get_endpoint_info(endpoints, selected_endpoint_name)
+        if selected_endpoint is None:
+            st.error(f"Endpoint not found")
+        else:
+            st.json(selected_endpoint)
 
 
-with st.sidebar, st.expander("Status", expanded=True):
-    selected_endpoint = get_endpoint_info(endpoints, selected_endpoint_name)
-    st.json(selected_endpoint)
+
+if __name__=="__main__":
+    main()

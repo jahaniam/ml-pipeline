@@ -1,4 +1,4 @@
-name: deploy
+name: deploy-stage
 
 on:
   push:
@@ -20,6 +20,9 @@ jobs:
             -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
             -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
             -e AWS_DEFAULT_REGION=${{ secrets.AWS_DEFAULT_REGION }} \
-            -e ENV=prod \
+            -e ENV=stage \
             -e SM_ARN_ROLE=${{ secrets.SM_ARN_ROLE }} \
             deploy-sagemaker python deploy_sagemaker.py --config models/digit_classification.yaml
+            
+# TODO: destroy staging endpoint after merge
+# TODO: use commit hash for staging endpoint name
