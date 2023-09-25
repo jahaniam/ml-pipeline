@@ -12,11 +12,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build Docker image
-        run: |
-          docker build -t deploy-sagemaker .
-
-      - name: Run Docker container
+      - name: Deploy model
         run: |
           cd sagemaker_scripts && docker build -t deploy-sagemaker . \
           && docker run \
