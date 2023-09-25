@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  jupyter:
+    build:
+      context: .
+      dockerfile: sagemaker_scripts/Dockerfile.train  # Specify your Dockerfile here
+    volumes:
+      - ".:/app"
+      - "/var/run/docker.sock:/var/run/docker.sock"  # Bind mount the Docker socket to run docker commands in docker
+      - "~/.aws:/root/.aws"  # Bind mount your AWS credentials
+      - "/tmp:/tmp"  # Bind mount the /tmp directory to share data between containers
+    ports:
+      - "8888:8888"
+    privileged: true
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

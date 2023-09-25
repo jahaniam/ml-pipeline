@@ -96,6 +96,7 @@ def train(config):
     ckpt_dir.mkdir(parents=True, exist_ok=True)
     model.save(ckpt_dir)
     generate_triton_config_mnist(str(Path(ckpt_dir).parents[1]), args.model_name)
+    wandb.finish()
     return
 
 

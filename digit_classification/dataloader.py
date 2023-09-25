@@ -14,6 +14,8 @@ class MnistDataloader:
 
     def get_train_ds(self, batch_size=32):
         train_ds = tf.data.Dataset.from_tensor_slices((self.x_train, self.y_train)).shuffle(10000).batch(batch_size)
+        # TODO: add augmentation train_ds = train_ds.map(...)
+
         return train_ds
 
     def get_test_ds(self, batch_size=32):
