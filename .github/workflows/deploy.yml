@@ -1,12 +1,13 @@
-name: pre-commit
+name: deploy
 
 on:
   push:
     branches:
       - main
-
+    paths:
+      - 'sagemaker_scripts/**'
 jobs:
-  deploy-digit-classification:
+  digit-classification:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
