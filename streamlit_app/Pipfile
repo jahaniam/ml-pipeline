@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+opencv-python-headless = "*"
+streamlit = "*"
+boto3 = "*"
+streamlit_drawable_canvas = "*"
+numpy = "*"
+
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
