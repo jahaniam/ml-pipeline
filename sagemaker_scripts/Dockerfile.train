@@ -1,0 +1,22 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+
+# magic label to make nvidia-docker mount driver files appropriately
+LABEL com.nvidia.volumes.needed="nvidia_driver"
+# see https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/user-guide.html
+ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
+ENV NVIDIA_REQUIRE_CUDA "cuda>=11.7 driver>=450"
+ENV NVIDIA_VISIBLE_DEVICES all
+
+# install dependencies
+RUN pip install --upgrade pip
+RUN pip install pipenv
+
+COPY sagemaker_scripts/Pipfile .
+COPY sagemaker_scripts/Pipfile.lock .
+RUN pipenv install --deploy --system --dev
+RUN apt-get update && apt-get install -y curl
+RUN curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh
+COPY . .
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--allow-root", "--no-browser", "--NotebookApp.token=''", "--NotebookApp.password=''"]

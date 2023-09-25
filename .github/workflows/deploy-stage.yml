@@ -15,7 +15,7 @@ jobs:
 
       - name: Deploy model
         run: |
-          cd sagemaker_scripts && docker build -t deploy-sagemaker . \
+          cd sagemaker_scripts && docker build -t deploy-sagemaker -f Dockerfile.deploy . \
           && docker run \
             -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
             -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
