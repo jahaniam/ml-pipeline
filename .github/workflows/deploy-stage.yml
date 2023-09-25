@@ -23,6 +23,6 @@ jobs:
             -e ENV=stage \
             -e SM_ARN_ROLE=${{ secrets.SM_ARN_ROLE }} \
             deploy-sagemaker python deploy_sagemaker.py --config models/digit_classification.yaml
-            
+
 # TODO: destroy staging endpoint after merge
 # TODO: use commit hash for staging endpoint name

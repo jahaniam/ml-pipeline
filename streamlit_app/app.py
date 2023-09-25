@@ -6,10 +6,12 @@ from streamlit_drawable_canvas import st_canvas
 import boto3
 import json
 
+
 def get_endpoint_info(endpoints, endpoint_name):
     for endpoint in endpoints:
         if endpoint["EndpointName"] == endpoint_name:
             return endpoint  # return the matching endpoint dictionary
+
 
 def predict(img, runtime_sm_client, endpoint_name):
     payload = {
@@ -47,6 +49,7 @@ def get_endpoint_names():
     endpoints = response["Endpoints"]
     return endpoints
 
+
 def main():
     session = get_session()
 
@@ -75,8 +78,8 @@ def main():
     with col2:
         if st.button("Predict"):
             if selected_endpoint_name is None:
-               st.error(f"Please select an endpoint")
-            else: 
+                st.error(f"Please select an endpoint")
+            else:
                 img = cv2.resize(canvas_result.image_data.astype("uint8"), (28, 28))
                 img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
                 label = predict(img.reshape(1, 28, 28, 1), session, endpoint_name=selected_endpoint_name)
@@ -90,6 +93,5 @@ def main():
             st.json(selected_endpoint)
 
 
-
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
