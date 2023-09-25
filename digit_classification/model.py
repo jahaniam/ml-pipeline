@@ -22,7 +22,7 @@ class MyModel(Model):
         self.flatten = Flatten()
         self.d1 = Dense(1000, activation="relu")
         self.d2 = Dense(500, activation="relu")
-        self.out = Dense(10)
+        self.out = Dense(10, activation="softmax")
 
     def call(self, x):
         conv1_out = self.down_sample(self.conv1(x))

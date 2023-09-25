@@ -32,7 +32,7 @@ def train(config):
     model = MyModel()
     model.compile()
 
-    loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+    loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False)
     optimizer = tf.keras.optimizers.Adam(learning_rate=config.lr, beta_1=args.beta_1, beta_2=args.beta_2)
 
     train_loss = tf.keras.metrics.Mean(name="train_loss")
@@ -108,7 +108,6 @@ def parse_args():
     parser.add_argument("--beta_1", type=float, default=0.9)
     parser.add_argument("--beta_2", type=float, default=0.999)
     parser.add_argument("--model_name", type=str, default="mnist")
-    # Environment variables given by the training image
     parser.add_argument("--model_dir", type=str, default="/opt/ml/model")
     parser.add_argument("--version", type=str, default="1")
     return parser.parse_args()
