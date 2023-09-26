@@ -1,14 +1,13 @@
+# Welcome to StackEdit!
+
 # Digit Classification Training and Deployment
 
 ![tests](https://github.com/jahaniam/ml-training-pipeline/actions/workflows/test.yml/badge.svg)
-
 ![deploy](https://github.com/jahaniam/ml-training-pipeline/actions/workflows/deploy-prod.yml/badge.svg)
 
 
 
 ## About
-
-
 This projects implements an ML pipeline with CI/CD. It supports both large scale training on the cloud and also local training and deployment.
 
 Tech Stack:
@@ -30,32 +29,28 @@ There are many other tools and third party companies which have their own advant
 
 ## CI/CD Pipelines
 
-- **test.yml:** on PR, runs the unit test for each module and also makes sure the format and pre-commit settings are applid.
+- *test.yml:* on PR, runs the unit test for each module and also makes sure the format and pre-commit settings are applid.
 
-- **deploy-stage.yml:** on PR, it monitors the changes to the model and if they changed, it deploys the new changes to the staging endpoint
+- *deploy-stage.yml:* on PR, it monitors the changes to the model and if they changed, it deploys the new changes to the staging endpoint
 
-- **deploy-prod:** on push to the main, it monitors the changes to the model and if they changed, it deploys the new changes to the production endpoint
+- *deploy-prod:* on push to the main, it monitors the changes to the model and if they changed, it deploys the new changes to the production endpoint
 
 
 
 ## Code Structure
 
-- .**github/workflows:** includes codes for github actions. see `CI/CD Pipelines` section
+- *.github/workflows:* includes codes for github actions. see `CI/CD Pipelines` section
 
-- **digit_classification:** project code developed to train the model (train.py)
+- *digit_classification:* project code developed to train the model (train.py)
 
-- **sagemaker_scripts:** scripts for deployment and also large scale and local training. Although `train.py` from `digit_classification` could be used, `train_sagemaker_hyperparam.ipynb` notebook is prefered becaus the artifacts it creates matches the deployment model artifacts.
-	- **models/digit_classification.yaml:** model configuration in production/staging.
+- *sagemaker_scripts:* scripts for deployment and also large scale and local training. Although `train.py` from `digit_classification` could be used, `train_sagemaker_hyperparam.ipynb` notebook is prefered becaus the artifacts it creates matches the deployment model artifacts.
+	- *models/digit_classification.yaml:* model configuration in production/staging.
 
-- **streamlit_app:** a simple user interface which can test the production and staging endpoints available.
-
-## Setup
-Before starting training you will need to set up few accoutns:
-get your AWS_
+- *streamlit_app:* a simple user interface which can test the production and staging endpoints available.
 
 ## Training
-### Setup
-in `sagemaker_scrips/` create a `.env` folder and fill it with your keys.:
+#### Setup
+In `sagemaker_scrips/` create a `.env` folder and fill it with your keys.:
 ```
 SM_ARN_ROLE=<YOUR_AWS_SAGEMAKER_ARN>
 WANDB_API_KEY=<YOUR_WEIGHTS_AND_BIASES_API_KEY>
@@ -80,11 +75,12 @@ tuner  =  HyperparameterTuner(..., max_jobs=6,max_parallel_jobs=1,
 early_stopping_type="Off",autotune=False, ...)
 ```
 We can play with these parameters and increase the number of jobs and also changing the `instance_type` to be a gpu instance for faster training.
+
 #### Experiment Tracking
 Once the models are trained, we can see the experiments and metrics here https://wandb.ai/mnist_prototype/digit_classification/
 We can also see the training jobs on Sagemaker panel.
 
-### Deployment
+## Deployment
 Once the network is trained, the output is a uri to the model on s3 e.g.
 `s3://sagemaker-us-east-1-633875729936/digit_classification/models/tensorflow-training-230925-2120-001-413e8660/output/model.tar.gz` . In general it is better to use model registry but for this demo we directly use this path.
 
