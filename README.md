@@ -15,13 +15,13 @@ This project implements a Machine Learning (ML) pipeline with Continuous Integra
 
 - **Inference Server:** Nvidia Triton
 
-- **Experiment Tracking:** Weights and Biases
+- **Experiment Tracking:** Weights and Biases (https://wandb.ai/mnist_prototype/digit_classification/)
 
 - **ML Framework:** Tensorflow Keras
 
 - **CI/CD:** Github Actions
 
-- **UI:** Streamlit
+- **UI:** Streamlit (https://ml-pipeline.streamlit.app/)
 
 Other notable tools and third-party solutions include Ray, Neptune AI, Pytorch, and others.
 
