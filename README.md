@@ -72,13 +72,14 @@ hyperparameter_ranges  = {
 "lr": CategoricalParameter([0.0001, 0.001, 0.01]),
 "batch_size": CategoricalParameter([128, 256, 512]),}
 ```
-Hyperparameters tuning is set up for `learning rate` and `batch_size`. Additional parameters can easily be added within the
+Hyperparameters tuning is set up for `learning rate` and `batch_size`. Additional parameters can easily be added to the above.
+
 
 ```
 tuner  =  HyperparameterTuner(..., max_jobs=6,max_parallel_jobs=1,
 early_stopping_type="Off",autotune=False, ...)
 ```
-Adjusting these parameters, such as increasing the number of jobs or changing the instance_type to a GPU instance, can expedite training.
+Adjusting these parameters, such as increasing the number of jobb, maximum parallel jobs, or changing the `instance_type` to a GPU instance, can expedite training.
 
 #### Experiment Tracking
 Once the models are trained, we can see the experiments and metrics here https://wandb.ai/mnist_prototype/digit_classification/
@@ -86,6 +87,8 @@ We can also see the training jobs on Sagemaker panel.
 Post training, experiment outcomes and metrics can be viewed in [Weights and Biases Project Dashboard](https://wandb.ai/mnist_prototype/digit_classification/) here and within the SageMaker panel.
 
 ## Deployment
+
+#### Cloud
 Upon successful training, an URI to the model on S3 is provided, e.g.,
 `s3://sagemaker-us-east-1-633875729936/digit_classification/models/tensorflow-training-230925-2120-001-413e8660/output/model.tar.gz` . While using a model registry is advisable, this demo utilizes this path directly.
 
@@ -104,10 +107,12 @@ sagemaker_triton_default_model_name: mnist
 To make the downtime as low as possible we can increase the instance count.
 We can use higher end instance type to increase the speed. (Speed could be improved if we quantize the model to INT8)
 Amend the URI with the new path obtained post training and submit a pull request. GitHub Actions will deploy the PR model to the staging environment. Upon successful staging deployment, merge the PR to the main branch where deploy-prod.yml workflow will promote the model to production.
+#### Local
+Please follow [`sagemaker_scripts/train_sagemaker_hyperparam.ipynb`](https://github.com/jahaniam/ml-pipeline/blob/main/sagemaker_scripts/train_sagemaker_hyperparam.ipynb) for local deployment. Given a model artifact, an Nvidia Triton Server docker container is launched locally that utilizes local GPU. The current model can run `1070.22 infer/sec, latency 933 usec`
 
-**Improvements:**
+## Improvements:
 - Incorporate data augmentation within the dataloader to mitigate overfitting and enhance model generalization.
 - For large datasets, employ batch loading instead of loading the entire dataset into RAM.
 - Utilize [Quantized Aware Training](https://www.tensorflow.org/model_optimization/guide/quantization/training) to train the model with reduced precision (FP16 or INT8). This requires rewriting the model in a Functional format as Model Subclassing is not supported.
 
-- Convert the model to TensorRT, quantize the trained model for improved speed, and employ FP16 or INT8 quantized models. Given that the inference engine is Triton Server, integrating TensorRT can be achieved with minimal adjustments.
+- Convert the model to TensorRT, quantize the trained model for improved speed, and deploy FP16 or INT8 quantized models. Given that the inference engine is Triton Server, integrating TensorRT can be achieved with minimal adjustments.
