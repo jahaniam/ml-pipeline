@@ -13,17 +13,17 @@ This project implements a Machine Learning (ML) pipeline with Continuous Integra
 
 - **Large Scale Training:** AWS sagemaker
 
-- **Inference Server:** Nvidia Triton
+- **Inference Server:** Nvidia Triton - supports most framework. Have Scheduling and Concurrency Model optimization. Supports GRPC for model inference on Edge on streaming data, etc.
 
 - **Experiment Tracking:** Weights and Biases (https://wandb.ai/mnist_prototype/digit_classification/)
 
-- **ML Framework:** Tensorflow Keras
+- **ML Framework:** Tensorflow + Keras - currently Keras is natively supported in tensorflow. [New release](https://keras.io/keras_core/#:~:text=Keras%20Core%20makes%20it%20possible,%2C%20JAX%2C%20and%20PyTorch%20workflows) of Keras will support Pytorch, Jax, and Tensorflow. It will become a versatile framework in production and research.
 
 - **CI/CD:** Github Actions
 
 - **UI:** Streamlit (https://ml-pipeline.streamlit.app/)
 
-Other notable tools and third-party solutions include Ray, Neptune AI, Pytorch, etc.
+Other notable tools and third-party solutions include Ray (distributed training), Neptune AI(experiment tracking and model registry), etc.
 
 
 ## CI/CD Pipelines
@@ -34,7 +34,6 @@ Other notable tools and third-party solutions include Ray, Neptune AI, Pytorch, 
 
 
 - *deploy-prod:* Triggered on pushes to the main branch, monitors model changes and, if detected, deploys the new changes to the production endpoint.
-
 
 
 
