@@ -1,5 +1,3 @@
-# Welcome to StackEdit!
-
 # Digit Classification Training and Deployment
 
 ![tests](https://github.com/jahaniam/ml-training-pipeline/actions/workflows/test.yml/badge.svg)
