@@ -23,7 +23,7 @@ This project implements a Machine Learning (ML) pipeline with Continuous Integra
 
 - **UI:** Streamlit (https://ml-pipeline.streamlit.app/)
 
-Other notable tools and third-party solutions include Ray, Neptune AI, Pytorch, and others.
+Other notable tools and third-party solutions include Ray, Neptune AI, Pytorch, etc.
 
 
 ## CI/CD Pipelines
