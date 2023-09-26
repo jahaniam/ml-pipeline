@@ -13,7 +13,7 @@ This project implements a Machine Learning (ML) pipeline with Continuous Integra
 
 - **Large Scale Training:** AWS sagemaker
 
-- **Inference Server:** Nvidia Triton - supports most frameworks. It has a scheduler, dynamic batching, and concurrency for model optimization. it supports GRPC for model inference on edge for streaming data.
+- **Inference Server:** Nvidia Triton - supports most frameworks. It has a scheduler, dynamic batching, and concurrency for model optimization. it supports gRPC for model inference on edge for streaming data.
 
 - **Experiment Tracking:** Weights and Biases (https://wandb.ai/mnist_prototype/digit_classification/)
 
