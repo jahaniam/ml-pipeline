@@ -8,10 +8,12 @@ import json
 
 
 def get_endpoint_info(endpoints, endpoint_name):
-    for endpoint in endpoints:
-        if endpoint["EndpointName"] == endpoint_name:
-            return endpoint  # return the matching endpoint dictionary
-
+    try:
+        for endpoint in endpoints:
+            if endpoint["EndpointName"] == endpoint_name:
+                return endpoint  # return the matching endpoint dictionary
+    except:
+        return None
 
 def predict(img, runtime_sm_client, endpoint_name):
     payload = {
