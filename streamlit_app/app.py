@@ -38,7 +38,10 @@ def predict(img, runtime_sm_client, endpoint_name):
 
 @st.cache_resource
 def get_session():
-    runtime_sm_client = boto3.client("sagemaker-runtime")
+    try:
+        runtime_sm_client = boto3.client("sagemaker-runtime")
+    except:
+        runtime_sm_client = None
     return runtime_sm_client
 
 
