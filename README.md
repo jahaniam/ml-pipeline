@@ -21,7 +21,7 @@ This project implements a Machine Learning (ML) pipeline with Continuous Integra
 
 - **CI/CD:** Github Actions
 
-- **UI:** Streamlit (https://ml-pipeline.streamlit.app/)
+- **UI:** Streamlit (https://simple-ml-pipeline.streamlit.app/)
 
 Other notable tools and third-party solutions include Ray (distributed training), Neptune AI(experiment tracking and model registry), etc.
 
