@@ -44,12 +44,15 @@ def get_session():
 
 @st.cache_data
 def get_endpoint_names():
-    sm_client = boto3.client("sagemaker")
-    response = sm_client.list_endpoints(
-        SortBy="CreationTime",
-        SortOrder="Descending",
-    )
-    endpoints = response["Endpoints"]
+    try:
+        sm_client = boto3.client("sagemaker")
+        response = sm_client.list_endpoints(
+            SortBy="CreationTime",
+            SortOrder="Descending",
+        )
+        endpoints = response["Endpoints"]
+    except:
+        endpoints = []
     return endpoints
 
 
