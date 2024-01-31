@@ -15,6 +15,7 @@ def get_endpoint_info(endpoints, endpoint_name):
     except:
         return None
 
+
 def predict(img, runtime_sm_client, endpoint_name):
     payload = {
         "inputs": [
